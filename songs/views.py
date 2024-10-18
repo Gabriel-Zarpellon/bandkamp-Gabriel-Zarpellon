@@ -7,15 +7,20 @@ from albums.models import Album
 
 from rest_framework.generics import ListCreateAPIView
 
+from bandkamp.pagination import Pagination
+
 
 class SongView(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+    pagination_class = Pagination
+
     serializer_class = SongSerializer
 
     def get_queryset(self):
         found_album = get_object_or_404(Album, pk=self.kwargs.get("pk"))
+
         return Song.objects.filter(album_id=found_album.id)
 
     def perform_create(self, serializer):

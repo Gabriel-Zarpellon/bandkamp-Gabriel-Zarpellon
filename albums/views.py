@@ -5,10 +5,14 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from rest_framework.generics import ListCreateAPIView
 
+from bandkamp.pagination import Pagination
+
 
 class AlbumView(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    pagination_class = Pagination
 
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
